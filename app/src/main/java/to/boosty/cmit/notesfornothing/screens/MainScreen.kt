@@ -32,12 +32,9 @@ import to.boosty.cmit.notesfornothing.ui.theme.NotesForNothingTheme
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MainScreen(navController: NavHostController) {
+fun MainScreen(navController: NavHostController, viewModel: MainViewModel) {
 
-    val context = LocalContext.current
-    val mViewModel: MainViewModel =
-        viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
-
+    val notes = viewModel.readAllNotes().observeAsState(listOf()).value
 
     Scaffold(modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
@@ -47,18 +44,12 @@ fun MainScreen(navController: NavHostController) {
                     tint = Color.White)
             }
         }) {
-//        Column(modifier = Modifier.padding(vertical = 8.dp))
-//        {
-//            NoteItem(navController = navController, title = "Title 1", description = "Description")
-//            NoteItem(navController = navController, title = "Title 2", description = "Description")
-//            NoteItem(navController = navController, title = "Title 3", description = "Description")
-//            NoteItem(navController = navController, title = "Title 4", description = "Description")
-//        }
-//        LazyColumn{
-//            items(notes) {
-//                note -> NoteItem(navController = navController, note = note)
-//            }
-//        }
+
+        LazyColumn{
+            items(notes) {
+                note -> NoteItem(navController = navController, note = note)
+            }
+        }
     }
 
 }
@@ -85,6 +76,9 @@ fun NoteItem(navController: NavHostController, note: Note) {
 @Preview(showBackground = true)
 fun prevMainScreen() {
     NotesForNothingTheme {
-        MainScreen(rememberNavController())
+        val context = LocalContext.current
+        val mViewModel: MainViewModel =
+            viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
+        MainScreen(rememberNavController(), mViewModel)
     }
 }

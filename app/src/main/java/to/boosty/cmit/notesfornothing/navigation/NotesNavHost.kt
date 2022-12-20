@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import to.boosty.cmit.notesfornothing.MainViewModel
 import to.boosty.cmit.notesfornothing.screens.AddScreen
 import to.boosty.cmit.notesfornothing.screens.MainScreen
 import to.boosty.cmit.notesfornothing.screens.NoteScreen
@@ -17,13 +18,13 @@ sealed class NavRoute(val route: String) {
 }
 
 @Composable
-fun NotesNavHost() {
+fun NotesNavHost(mViewModel: MainViewModel) {
     val navController = rememberNavController()
 
     NavHost(navController, startDestination = NavRoute.StartScreen.route) {
-        composable(NavRoute.StartScreen.route) { StartScreen(navController = navController)}
-        composable(NavRoute.MainScreen.route) { MainScreen(navController = navController) }
-        composable(NavRoute.AddScreen.route) { AddScreen(navController = navController) }
-        composable(NavRoute.NoteScreen.route) { NoteScreen(navController = navController) }
+        composable(NavRoute.StartScreen.route) { StartScreen(navController = navController, viewModel = mViewModel)}
+        composable(NavRoute.MainScreen.route) { MainScreen(navController = navController, viewModel = mViewModel) }
+        composable(NavRoute.AddScreen.route) { AddScreen(navController = navController, viewModel = mViewModel) }
+        composable(NavRoute.NoteScreen.route) { NoteScreen(navController = navController, viewModel = mViewModel) }
     }
 }

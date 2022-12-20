@@ -24,7 +24,7 @@ import to.boosty.cmit.notesfornothing.utils.TYPE_ROOM
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun StartScreen(navController: NavHostController) {
+fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
 
     val context = LocalContext.current
     val mViewModel: MainViewModel =
@@ -70,6 +70,9 @@ fun StartScreen(navController: NavHostController) {
 @Preview(showBackground = true)
 fun prevStartScreen() {
     NotesForNothingTheme {
-        StartScreen(rememberNavController())
+        val context = LocalContext.current
+        val mViewModel: MainViewModel =
+            viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
+        StartScreen(rememberNavController(), mViewModel)
     }
 }
